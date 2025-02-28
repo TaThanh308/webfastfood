@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Category;
+use App\Http\Controllers\Controller; // <-- Đảm bảo import đúng
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -15,12 +16,12 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
-        return view('categories.index', compact('categories'));
+        return view('admin.categories.index', compact('categories'));
     }
 
     public function create()
     {
-        return view('categories.create');
+        return view('admin.categories.create');
     }
 
     public function store(Request $request)
@@ -31,12 +32,12 @@ class CategoryController extends Controller
 
         Category::create(['name' => $request->name]);
 
-        return redirect()->route('categories.index')->with('success', 'Danh mục đã được thêm!');
+        return redirect()->route('admin.categories.index')->with('success', 'Danh mục đã được thêm!');
     }
 
     public function edit(Category $category)
     {
-        return view('categories.edit', compact('category'));
+        return view('admin.categories.edit', compact('category'));
     }
 
     public function update(Request $request, Category $category)
@@ -47,16 +48,16 @@ class CategoryController extends Controller
 
         $category->update(['name' => $request->name]);
 
-        return redirect()->route('categories.index')->with('success', 'Danh mục đã được cập nhật!');
+        return redirect()->route('admin.categories.index')->with('success', 'Danh mục đã được cập nhật!');
     }
 
     public function destroy(Category $category)
     {
         if ($category->products()->count() > 0) {
-            return redirect()->route('categories.index')->with('error', 'Không thể xóa danh mục có sản phẩm!');
+            return redirect()->route('admin.categories.index')->with('error', 'Không thể xóa danh mục có sản phẩm!');
         }
 
         $category->delete();
-        return redirect()->route('categories.index')->with('success', 'Danh mục đã bị xóa!');
+        return redirect()->route('admin.categories.index')->with('success', 'Danh mục đã bị xóa!');
     }
 }

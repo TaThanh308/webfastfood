@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <h2>Danh sách danh mục</h2>
-    <a href="{{ route('categories.create') }}" class="btn btn-success mb-3">Thêm danh mục</a>
+    <a href="{{ route('admin.categories.create') }}" class="btn btn-success mb-3">Thêm danh mục</a>
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
@@ -21,8 +21,8 @@
                     <td>{{ $category->id }}</td>
                     <td>{{ $category->name }}</td>
                     <td>
-                        <a href="{{ route('categories.edit', $category) }}" class="btn btn-warning">Sửa</a>
-                        <form action="{{ route('categories.destroy', $category) }}" method="POST" style="display:inline-block;">
+                        <a href="{{ route('admin.categories.edit', $category) }}" class="btn btn-warning">Sửa</a>
+                        <form action="{{ route('admin.categories.destroy', $category) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</button>
