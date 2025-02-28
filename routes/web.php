@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\NewsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,3 +85,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
 });
 Route::resource('admin/products', ProductController::class);
 
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::resource('news', NewsController::class);
+});
