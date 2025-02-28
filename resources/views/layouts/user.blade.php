@@ -72,14 +72,25 @@
                     <li class="nav-item"><a class="nav-link" href="khuyenmai.html"><i class="fas fa-tag"></i> Khuyến Mãi</a></li>
                     <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-store"></i> Cửa Hàng</a></li>
                 </ul>
-                <div class="d-flex">
-                    <button class="btn btn-light me-2" onclick="location.href='{{ route('login') }}'">
-                        <i class="fas fa-user"></i>
-                    </button>
-                    <button class="btn btn-light me-2"><i class="fas fa-bell"></i></button>
-                    <a href="order/history.html" class="btn btn-light me-2"><i class="fas fa-shopping-cart"></i></a>
-                    <button class="btn btn-danger">Tải App</button>
-                </div>
+                <div class="d-flex align-items-center">
+    @auth
+        <!-- Hiển thị tên và nút đăng xuất nếu đã đăng nhập -->
+        <span class="me-3 text-dark">Xin chào, {{ Auth::user()->name }}</span>
+        <form action="{{ route('logout') }}" method="POST" class="d-inline">
+            @csrf
+            <button type="submit" class="btn btn-light me-2"><i class="fas fa-sign-out-alt"></i> Đăng xuất</button>
+        </form>
+    @else
+        <!-- Hiển thị nút đăng nhập nếu chưa đăng nhập -->
+        <button class="btn btn-light me-2" onclick="location.href='{{ route('login') }}'">
+            <i class="fas fa-user"></i> Đăng nhập
+        </button>
+    @endauth
+
+    <button class="btn btn-light me-2"><i class="fas fa-bell"></i></button>
+    <button class="btn btn-danger">Tải App</button>
+</div>
+
             </div>
         </div>
     </nav>
