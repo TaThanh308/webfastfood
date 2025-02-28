@@ -67,7 +67,8 @@
     <div class="sidebar">
         <h2>Quản Lý</h2>
         <a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-        <a href="#"><i class="fas fa-list"></i> Danh mục</a>
+        <a href="{{ route('categories.index') }}"><i class="fas fa-list"></i> Danh mục</a>
+
         <a href="#"><i class="fas fa-utensils"></i> Sản phẩm</a>
         <a href="#"><i class="fas fa-tags"></i> Giảm Giá</a>
         <a href="#"><i class="fas fa-shopping-cart"></i> Đơn Hàng</a>
