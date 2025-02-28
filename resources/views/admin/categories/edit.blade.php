@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <h2>Chỉnh sửa danh mục</h2>
-    <form action="{{ route('categories.update', $category) }}" method="POST">
+    <form action="{{ route('admin.categories.update', $category) }}" method="POST">
         @csrf
         @method('PUT')
         <div class="form-group">
