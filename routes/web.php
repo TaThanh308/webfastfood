@@ -68,7 +68,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 // Trang chính cho khách hàng
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', function () {
-        return view('home');
+        return view('welcome');
     })->name('home');
 });
 
