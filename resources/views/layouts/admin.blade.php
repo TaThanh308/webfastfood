@@ -72,6 +72,9 @@
         <a href="#"><i class="fas fa-utensils"></i> Sản phẩm</a>
         <a href="#"><i class="fas fa-tags"></i> Giảm Giá</a>
         <a href="#"><i class="fas fa-shopping-cart"></i> Đơn Hàng</a>
+        <a href="{{ route('news.index') }}">
+    <i class="fas fa-shopping-cart"></i> Tin Tức
+</a>
     </div>
     <div class="content">
         <div class="top-bar">
