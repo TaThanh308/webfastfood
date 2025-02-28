@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 // Import AuthController
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,3 +55,32 @@ Route::get('auth/{provider}/callback', function ($provider) {
 
     return redirect()->route('home');
 })->where('provider', 'google|facebook');
+
+// Trang quản trị dành cho admin
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/dashboard', function () {
+        return view('admin.dashboard');
+    })->name('admin.dashboard');
+});
+
+// Trang chính cho khách hàng
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', function () {
+        return view('home');
+    })->name('home');
+});
+
+
+
+
+// Nhóm route dành cho admin
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/categories', [CategoryController::class, 'index'])->name('admin.categories.index');
+    Route::get('/categories/create', [CategoryController::class, 'create'])->name('admin.categories.create');
+    Route::post('/categories', [CategoryController::class, 'store'])->name('admin.categories.store');
+    Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('admin.categories.edit');
+    Route::put('/categories/{category}', [CategoryController::class, 'update'])->name('admin.categories.update');
+    Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
+});
+Route::resource('admin/products', ProductController::class);
+
