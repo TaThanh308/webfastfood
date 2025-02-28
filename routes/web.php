@@ -55,3 +55,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::put('/categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 });
+
+
+use App\Http\Controllers\NewsController;
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::resource('news', NewsController::class);
+});
