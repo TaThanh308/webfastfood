@@ -8,8 +8,9 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\NewsController;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
-
+use App\Http\Controllers\Admin\BannerController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,9 +22,7 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/', function () { return view('home');})->name('home');
 
 
 // Đăng ký
@@ -66,11 +65,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 });
 
 // Trang chính cho khách hàng
-Route::middleware(['auth'])->group(function () {
-    Route::get('/home', function () {
-        return view('welcome');
-    })->name('home');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 
 
@@ -85,4 +80,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
     Route::resource('admin/products', ProductController::class);
     Route::resource('news', NewsController::class);
+    Route::resource('banners', BannerController::class);
 });
+
+
+

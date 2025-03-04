@@ -68,7 +68,7 @@
         <h2>Quản Lý</h2>
         <a href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
         <a href="{{ route('admin.categories.index') }}"><i class="fas fa-list"></i> Danh mục</a>
-
+        <a href="{{ route('banners.index') }}"><i class="fas fa-list"></i> Banner</a>
         <a href="{{ route('products.index') }}"><i class="fas fa-utensils"></i> Sản phẩm</a>
         <a href="#"><i class="fas fa-tags"></i> Giảm Giá</a>
         <a href="#"><i class="fas fa-shopping-cart"></i> Đơn Hàng</a>
