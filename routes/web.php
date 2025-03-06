@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 // Import AuthController
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProductUserController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\NewsController;
@@ -11,6 +12,10 @@ use App\Models\User;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\Admin\ProductDiscountController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\DiscountProductController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -81,7 +86,18 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('admin/products', ProductController::class);
     Route::resource('news', NewsController::class);
     Route::resource('banners', BannerController::class);
+    Route::resource('discounts', ProductDiscountController::class)->names('admin.discounts');
 });
 
 
 
+Route::get('/products', [ProductUserController::class, 'index'])->name('productsUser.index');
+Route::get('/products/{id}', [ProductUserController::class, 'show'])->name('products.show');
+
+Route::middleware(['auth'])->group(function () {
+    Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
+});
+
+
+Route::get('/discounts', [DiscountProductController::class, 'index'])->name('discounts.index');
+Route::get('/discounted-products/{id}', [DiscountProductController::class, 'show'])->name('products.discounted.show');
