@@ -40,7 +40,7 @@
 
         <!-- Hình Ảnh -->
         <div class="promo d-flex align-items-center justify-content-center text-white text-center" 
-             style="background: url('{{ asset('storage/images/login.jpg') }}') no-repeat center; background-size: cover; width: 300px; height: 500px;">
+             style="background: url('{{ asset('storage/images/logo.jpg') }}') no-repeat center; background-size: cover; width: 300px; height: 500px;">
         </div>
     </div>
 </div>

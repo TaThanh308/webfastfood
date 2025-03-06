@@ -62,7 +62,7 @@
         </div>
 
         <div class="promo d-flex justify-content-center align-items-center text-white text-center" 
-             style="background: url('{{ asset('storage/images/login.jpg') }}') no-repeat center; background-size: cover; width: 300px;">
+             style="background: url('{{ asset('storage/images/logo.jpg') }}') no-repeat center; background-size: cover; width: 300px;">
         </div>
     </div>
 </div>
