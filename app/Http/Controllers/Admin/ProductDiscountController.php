@@ -35,7 +35,7 @@ class ProductDiscountController extends Controller
 
         ProductDiscount::create($request->all());
 
-        return redirect()->route('admin.discounts.index')->with('success', 'Thêm giảm giá thành công!');
+        return redirect()->route('discounts.index')->with('success', 'Thêm giảm giá thành công!');
     }
 
     // Form chỉnh sửa giảm giá
@@ -58,13 +58,13 @@ class ProductDiscountController extends Controller
 
         $discount->update($request->all());
 
-        return redirect()->route('admin.discounts.index')->with('success', 'Cập nhật giảm giá thành công!');
+        return redirect()->route('discounts.index')->with('success', 'Cập nhật giảm giá thành công!');
     }
 
     // Xóa giảm giá
     public function destroy(ProductDiscount $discount)
     {
         $discount->delete();
-        return redirect()->route('admin.discounts.index')->with('success', 'Xóa giảm giá thành công!');
+        return redirect()->route('discounts.index')->with('success', 'Xóa giảm giá thành công!');
     }
 }

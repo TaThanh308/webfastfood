@@ -4,7 +4,7 @@
 <div class="container">
     <h1 class="my-4">Thêm Giảm Giá</h1>
 
-    <form action="{{ route('admin.discounts.store') }}" method="POST">
+    <form action="{{ route('discounts.store') }}" method="POST">
         @csrf
         <div class="mb-3">
             <label>Sản phẩm:</label>
