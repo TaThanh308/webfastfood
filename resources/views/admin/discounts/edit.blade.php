@@ -4,7 +4,7 @@
 <div class="container">
     <h1 class="my-4">Chỉnh Sửa Giảm Giá</h1>
 
-    <form action="{{ route('admin.discounts.update', $discount->id) }}" method="POST">
+    <form action="{{ route('discounts.update', $discount->id) }}" method="POST">
         @csrf
         @method('PUT')
 

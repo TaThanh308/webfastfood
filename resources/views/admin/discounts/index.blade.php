@@ -4,7 +4,7 @@
 <div class="container">
     <h1 class="my-4">Danh Sách Giảm Giá</h1>
 
-    <a href="{{ route('admin.discounts.create') }}" class="btn btn-primary mb-3">+ Thêm giảm giá</a>
+    <a href="{{ route('discounts.create') }}" class="btn btn-primary mb-3">+ Thêm giảm giá</a>
 
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
@@ -34,8 +34,8 @@
                     <td>{{ $discount->start_date }}</td>
                     <td>{{ $discount->valid_until }}</td>
                     <td>
-                        <a href="{{ route('admin.discounts.edit', $discount->id) }}" class="btn btn-warning btn-sm">✏️</a>
-                        <form action="{{ route('admin.discounts.destroy', $discount->id) }}" method="POST" class="d-inline">
+                        <a href="{{ route('discounts.edit', $discount->id) }}" class="btn btn-warning btn-sm">✏️</a>
+                        <form action="{{ route('discounts.destroy', $discount->id) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger btn-sm">🗑️</button>

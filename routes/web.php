@@ -86,7 +86,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('admin/products', ProductController::class);
     Route::resource('news', NewsController::class);
     Route::resource('banners', BannerController::class);
-    Route::resource('discounts', ProductDiscountController::class)->names('admin.discounts');
+    Route::resource('admin/discounts', ProductDiscountController::class);
 });
 
 
@@ -99,5 +99,5 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-Route::get('/discounts', [DiscountProductController::class, 'index'])->name('discounts.index');
+Route::get('/discounts', [DiscountProductController::class, 'index'])->name('customer.discounts.index');
 Route::get('/discounted-products/{id}', [DiscountProductController::class, 'show'])->name('products.discounted.show');
