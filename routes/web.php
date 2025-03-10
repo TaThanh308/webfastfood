@@ -95,7 +95,11 @@ Route::get('/products', [ProductUserController::class, 'index'])->name('products
 Route::get('/products/{id}', [ProductUserController::class, 'show'])->name('products.show');
 
 Route::middleware(['auth'])->group(function () {
-    Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
+    Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+    Route::get('/cart', [CartController::class, 'index'])->name('customer.cart.index');
+    Route::put('/cart/update/{id}', [CartController::class, 'updateCart'])->name('cart.update');
+    Route::delete('/cart/remove/{id}', [CartController::class, 'removeFromCart'])->name('cart.remove');
+
 });
 
 

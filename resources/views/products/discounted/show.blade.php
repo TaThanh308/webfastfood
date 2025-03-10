@@ -43,16 +43,13 @@
                 </p>
             @endif
 
-            @auth
-                <form action="{{ route('cart.add', $product->id) }}" method="POST">
-                    @csrf
-                    <button type="submit" class="btn btn-primary btn-lg mt-3"><i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
-                </form>
-            @else
-                <p class="mt-3">
-                    <a href="{{ route('login') }}" class="btn btn-warning btn-lg"><i class="fas fa-sign-in-alt"></i> Đăng nhập để mua hàng</a>
-                </p>
-            @endauth
+            <form action="{{ route('cart.add') }}" method="POST">
+                @csrf
+                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                <label for="quantity">Số lượng:</label>
+                <input type="number" name="quantity" value="1" min="1" required>
+                <button type="submit">Thêm vào giỏ hàng</button>
+            </form>
         </div>
     </div>
 </div>
