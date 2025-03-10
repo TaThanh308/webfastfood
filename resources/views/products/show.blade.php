@@ -21,10 +21,13 @@
             <p>Danh mục: <span class="badge bg-primary">{{ $product->category->name ?? 'Không xác định' }}</span></p>
 
             @auth
-                <form action="{{ route('cart.add', $product->id) }}" method="POST">
-                    @csrf
-                    <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold">🛒 Thêm vào giỏ hàng</button>
-                </form>
+            <form action="{{ route('cart.add') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                        <label for="quantity">Số lượng:</label>
+                        <input type="number" name="quantity" value="1" min="1" required>
+                        <button type="submit">Thêm vào giỏ hàng</button>
+                        </form>
             @else
                 <p class="mt-3"><a href="{{ route('login') }}" class="btn btn-warning btn-lg w-100 fw-bold">🔑 Đăng nhập để mua hàng</a></p>
             @endauth
