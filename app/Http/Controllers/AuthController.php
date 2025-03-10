@@ -28,6 +28,8 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'social_id' => $request->social_id ?? '',
+            'social_provider' => $request->social_provider ?? '',
             'role' => 'customer', // Mặc định role là customer
         ]);
 
