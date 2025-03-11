@@ -74,14 +74,27 @@
                 </ul>
                 <div class="d-flex align-items-center">
     @auth
-        <!-- Hiển thị tên và nút đăng xuất nếu đã đăng nhập -->
-        <span class="me-3 text-dark">Xin chào, {{ Auth::user()->name }}</span>
-        <form action="{{ route('logout') }}" method="POST" class="d-inline">
-            @csrf
-            <button type="submit" class="btn btn-light me-2"><i class="fas fa-sign-out-alt"></i> Đăng xuất</button>
-        </form>
+        <div class="dropdown">
+            <button class="btn btn-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                👤 Xin chào, {{ Auth::user()->name }}
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                <li>
+                    <a class="dropdown-item" href="{{ route('password.change.form') }}">
+                        <i class="fas fa-key"></i> Đổi mật khẩu
+                    </a>
+                </li>
+                <li>
+                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                        @csrf
+                        <button type="submit" class="dropdown-item">
+                            <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
     @else
-        <!-- Hiển thị nút đăng nhập nếu chưa đăng nhập -->
         <button class="btn btn-light me-2" onclick="location.href='{{ route('login') }}'">
             <i class="fas fa-user"></i> Đăng nhập
         </button>
@@ -90,6 +103,7 @@
     <button class="btn btn-light me-2"><i class="fas fa-bell"></i></button>
     <button class="btn btn-danger">Tải App</button>
 </div>
+
 
             </div>
         </div>
