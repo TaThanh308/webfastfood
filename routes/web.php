@@ -72,6 +72,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
 // Trang chính cho khách hàng
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+Route::middleware('auth')->group(function () {
+    Route::get('/change-password', [AuthController::class, 'showChangePasswordForm'])->name('password.change.form');
+    Route::post('/change-password', [AuthController::class, 'changePassword'])->name('password.change');
+});
 
 
 
@@ -105,3 +109,7 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/discounts', [DiscountProductController::class, 'index'])->name('customer.discounts.index');
 Route::get('/discounted-products/{id}', [DiscountProductController::class, 'show'])->name('products.discounted.show');
+Route::get('/forgot-password', [AuthController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('/forgot-password', [AuthController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('/reset-password/{token}', [AuthController::class, 'showResetForm'])->name('password.reset');
+Route::post('/reset-password', [AuthController::class, 'reset'])->name('password.update');
