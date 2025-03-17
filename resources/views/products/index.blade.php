@@ -17,13 +17,13 @@
                 <div class="card-body text-center">
                     <h5 class="card-title fw-bold">{{ $product->name }}</h5>
                     <p class="fw-bold text-danger fs-5">{{ number_format($product->price, 0, ',', '.') }} VNĐ</p>
-                    <form action="{{ route('cart.add') }}" method="POST">
+                    <!-- <form action="{{ route('cart.add') }}" method="POST">
                         @csrf
                         <input type="hidden" name="product_id" value="{{ $product->id }}">
                         <label for="quantity">Số lượng:</label>
                         <input type="number" name="quantity" value="1" min="1" required>
                         <button type="submit">Thêm vào giỏ hàng</button>
-                        </form>
+                        </form> -->
                     <a href="{{ route('products.show', $product->id) }}" class="btn btn-primary w-100 fw-bold">Xem chi tiết</a>
                 </div>
             </div>

@@ -33,13 +33,13 @@
                             {{ number_format($discounted_price, 0, ',', '.') }} VNĐ
                         </p>
                         <a href="{{ route('products.discounted.show', $product->id) }}" class="btn btn-primary w-100 fw-bold">Xem chi tiết</a>
-                        <form action="{{ route('cart.add') }}" method="POST">
+                        <!-- <form action="{{ route('cart.add') }}" method="POST">
                         @csrf
                         <input type="hidden" name="product_id" value="{{ $product->id }}">
                         <label for="quantity">Số lượng:</label>
                         <input type="number" name="quantity" value="1" min="1" required>
                         <button type="submit">Thêm vào giỏ hàng</button>
-                        </form>
+                        </form> -->
                     </div>
                 </div>
             </div>
