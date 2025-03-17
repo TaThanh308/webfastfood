@@ -100,10 +100,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/cart', [CartController::class, 'index'])->name('customer.cart.index');
     Route::put('/cart/update/{id}', [CartController::class, 'updateCart'])->name('cart.update');
     Route::delete('/cart/remove/{id}', [CartController::class, 'removeFromCart'])->name('cart.remove');
-    Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('customer.checkout.checkout');
+    Route::get('/checkout', [CheckoutController::class, 'formcheckout'])->name('customer.checkout.checkout');
     Route::post('/checkout/cod', [CheckoutController::class, 'codPayment'])->name('checkout.cod');
     Route::post('/checkout/vnpay', [CheckoutController::class, 'vnpayPayment'])->name('checkout.vnpay');
-    Route::get('/checkout/vnpay/return', [CheckoutController::class, 'vnpayReturn'])->name('checkout.vnpay.return');
+    Route::get('/vnpay/return', [CheckoutController::class, 'vnpayReturn'])->name('vnpay.return');
 
 
 });
