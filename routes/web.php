@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\ProductDiscountController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\DiscountProductController;
+use App\Http\Controllers\CheckoutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -103,6 +104,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/cart', [CartController::class, 'index'])->name('customer.cart.index');
     Route::put('/cart/update/{id}', [CartController::class, 'updateCart'])->name('cart.update');
     Route::delete('/cart/remove/{id}', [CartController::class, 'removeFromCart'])->name('cart.remove');
+    Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('customer.checkout.checkout');
+    Route::post('/checkout/cod', [CheckoutController::class, 'codPayment'])->name('checkout.cod');
+    Route::post('/checkout/vnpay', [CheckoutController::class, 'vnpayPayment'])->name('checkout.vnpay');
+    Route::get('/checkout/vnpay/return', [CheckoutController::class, 'vnpayReturn'])->name('checkout.vnpay.return');
+
 
 });
 

@@ -52,7 +52,8 @@
             </tbody>
         </table>
 
-        <a href="#" class="btn btn-primary">Thanh toán</a>
+        <a href="{{ route('customer.checkout.checkout') }}" class="btn btn-primary">Thanh toán</a>
+
     @endif
 </div>
 @endsection
