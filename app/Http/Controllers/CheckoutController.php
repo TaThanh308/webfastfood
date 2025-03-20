@@ -70,7 +70,7 @@ class CheckoutController extends Controller
             Cart::where('user_id', Auth::id())->delete();
 
             DB::commit();
-            return redirect()->route('customer.orders')->with('success', 'Đặt hàng thành công! Vui lòng nhận hàng và thanh toán khi giao hàng.');
+            return redirect()->route('orders.show', $order->id)->with('success', 'Đặt hàng thành công! Vui lòng nhận hàng và thanh toán khi giao hàng.');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Có lỗi xảy ra, vui lòng thử lại.');

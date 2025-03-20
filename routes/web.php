@@ -16,6 +16,9 @@ use App\Http\Controllers\Admin\ProductDiscountController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\DiscountProductController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\Admin\OrderAdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -119,3 +122,21 @@ Route::get('/forgot-password', [AuthController::class, 'showLinkRequestForm'])->
 Route::post('/forgot-password', [AuthController::class, 'sendResetLinkEmail'])->name('password.email');
 Route::get('/reset-password/{token}', [AuthController::class, 'showResetForm'])->name('password.reset');
 Route::post('/reset-password', [AuthController::class, 'reset'])->name('password.update');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/my-orders', [OrderController::class, 'myOrders'])->name('orders.my');
+    Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
+    Route::post('/orders/{id}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
+});
+
+
+
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    Route::get('/orders', [OrderAdminController::class, 'index'])->name('admin.orders');
+    Route::get('/orders/{order}', [OrderAdminController::class, 'show'])->name('admin.orders.show');
+    Route::post('/orders/{order}/update-status', [OrderAdminController::class, 'updateStatus'])->name('admin.orders.updateStatus');
+});
+
+
+Route::post('/reviews/{orderId}', [ReviewController::class, 'store'])->name('reviews.store')->middleware('auth');
+
