@@ -71,8 +71,9 @@
         <a href="{{ route('banners.index') }}"><i class="fas fa-list"></i> Banner</a>
         <a href="{{ route('products.index') }}"><i class="fas fa-utensils"></i> Sản phẩm</a>
         <a href="{{ route('discounts.index') }}"><i class="fas fa-tags"></i> Giảm Giá</a>
-        <a href="#"><i class="fas fa-shopping-cart"></i> Đơn Hàng</a>
+        <a href="{{ route('admin.orders') }}"><i class="fas fa-shopping-cart"></i> Đơn Hàng</a>
         <a href="{{ route('news.index') }}">
+        
     <i class="fas fa-shopping-cart"></i> Tin Tức
 </a>
     </div>

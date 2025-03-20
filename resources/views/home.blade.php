@@ -24,7 +24,35 @@
         <p class="text-center">Chưa có banner nào được hiển thị.</p>
     @endif
 </div>
-
+<div class="container mt-4">
+    <h3 class="text-center">Đánh giá mới nhất</h3>
+    <div class="row">
+        @foreach ($reviews as $review)
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $review->user->name ?? 'Người dùng ẩn danh' }}</h5>
+                        <p class="card-text">
+                            <strong>Sản phẩm:</strong> {{ $review->product->name ?? 'Không xác định' }}
+                        </p>
+                        <p>
+                            <strong>Đánh giá:</strong> 
+                            @for ($i = 1; $i <= 5; $i++)
+                                @if ($i <= $review->rating)
+                                    <i class="fas fa-star text-warning"></i>
+                                @else
+                                    <i class="far fa-star text-muted"></i>
+                                @endif
+                            @endfor
+                        </p>
+                        <p class="text-muted">{{ $review->comment ?? 'Không có nhận xét' }}</p>
+                        <small class="text-muted">Ngày đánh giá: {{ $review->created_at->format('d/m/Y') }}</small>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+</div>
 <style>
     .banner-img {
         height: 400px; /* Tăng chiều cao banner */
