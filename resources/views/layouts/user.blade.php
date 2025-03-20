@@ -58,7 +58,7 @@
     <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="{{ route('home') }}">
               <img src="{{ asset('storage/images/logo.jpg') }}" alt="Bán đồ ăn nhanh Logo" width="70" height="auto" class="d-inline-block align-top">
             </a>
 
@@ -79,11 +79,14 @@
                 👤 Xin chào, {{ Auth::user()->name }}
             </button>
             <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                <li>
-                    <a class="dropdown-item" href="{{ route('password.change.form') }}">
-                        <i class="fas fa-key"></i> Đổi mật khẩu
-                    </a>
-                </li>
+            @if(auth()->user()->social_provider == null)
+    <li>
+        <a class="dropdown-item" href="{{ route('password.change.form') }}">
+            <i class="fas fa-key"></i> Đổi mật khẩu
+        </a>
+    </li>
+@endif
+
                 <li>
                     <form action="{{ route('logout') }}" method="POST" class="d-inline">
                         @csrf
@@ -99,9 +102,6 @@
             <i class="fas fa-user"></i> Đăng nhập
         </button>
     @endauth
-
-    <button class="btn btn-light me-2"><i class="fas fa-bell"></i></button>
-    <button class="btn btn-danger">Tải App</button>
 </div>
 
 
