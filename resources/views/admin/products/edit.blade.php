@@ -5,7 +5,7 @@
     <div class="card">
         <div class="card-body">
             <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
-                @csrf 
+                @csrf
                 @method('PUT')
                 <table class="table table-bordered">
                     <tr>
@@ -36,28 +36,15 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>Kích thước:</th>
+                        <th><label for="size">Kích thước:</label></th>
                         <td>
-                            <div class="form-check form-check-inline">
-                                <input type="radio" name="size" value="S" id="sizeS" class="form-check-input"
-                                    {{ $product->size == 'S' ? 'checked' : '' }}>
-                                <label for="sizeS" class="form-check-label">S</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input type="radio" name="size" value="M" id="sizeM" class="form-check-input"
-                                    {{ $product->size == 'M' ? 'checked' : '' }}>
-                                <label for="sizeM" class="form-check-label">M</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input type="radio" name="size" value="L" id="sizeL" class="form-check-input"
-                                    {{ $product->size == 'L' ? 'checked' : '' }}>
-                                <label for="sizeL" class="form-check-label">L</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input type="radio" name="size" value="XL" id="sizeXL" class="form-check-input"
-                                    {{ $product->size == 'XL' ? 'checked' : '' }}>
-                                <label for="sizeXL" class="form-check-label">XL</label>
-                            </div>
+                            <select name="size" id="size" class="form-control">
+                                <option value="">-- Chọn kích thước --</option>
+                                <option value="S" {{ $product->size == 'S' ? 'selected' : '' }}>S</option>
+                                <option value="M" {{ $product->size == 'M' ? 'selected' : '' }}>M</option>
+                                <option value="L" {{ $product->size == 'L' ? 'selected' : '' }}>L</option>
+                                <option value="XL" {{ $product->size == 'XL' ? 'selected' : '' }}>XL</option>
+                            </select>
                         </td>
                     </tr>
                     <tr>
@@ -73,14 +60,14 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>Ảnh sản phẩm:</th>
+                        <th><label for="image">Ảnh:</label></th>
                         <td>
                             @if ($product->image)
                                 <div class="mb-2">
                                     <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" width="100">
                                 </div>
                             @endif
-                            <input type="file" name="image" class="form-control">
+                            <input type="file" name="image" id="image" class="form-control">
                         </td>
                     </tr>
                     <tr>
