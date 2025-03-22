@@ -36,29 +36,26 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>Kích thước (chọn nhiều):</th>
+                        <th>Kích thước:</th>
                         <td>
-                            @php
-                                $selectedSizes = $product->size ? explode(',', $product->size) : [];
-                            @endphp
                             <div class="form-check form-check-inline">
-                                <input type="checkbox" name="size[]" value="S" id="sizeS" class="form-check-input"
-                                    {{ in_array('S', $selectedSizes) ? 'checked' : '' }}>
+                                <input type="radio" name="size" value="S" id="sizeS" class="form-check-input"
+                                    {{ $product->size == 'S' ? 'checked' : '' }}>
                                 <label for="sizeS" class="form-check-label">S</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input type="checkbox" name="size[]" value="M" id="sizeM" class="form-check-input"
-                                    {{ in_array('M', $selectedSizes) ? 'checked' : '' }}>
+                                <input type="radio" name="size" value="M" id="sizeM" class="form-check-input"
+                                    {{ $product->size == 'M' ? 'checked' : '' }}>
                                 <label for="sizeM" class="form-check-label">M</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input type="checkbox" name="size[]" value="L" id="sizeL" class="form-check-input"
-                                    {{ in_array('L', $selectedSizes) ? 'checked' : '' }}>
+                                <input type="radio" name="size" value="L" id="sizeL" class="form-check-input"
+                                    {{ $product->size == 'L' ? 'checked' : '' }}>
                                 <label for="sizeL" class="form-check-label">L</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input type="checkbox" name="size[]" value="XL" id="sizeXL" class="form-check-input"
-                                    {{ in_array('XL', $selectedSizes) ? 'checked' : '' }}>
+                                <input type="radio" name="size" value="XL" id="sizeXL" class="form-check-input"
+                                    {{ $product->size == 'XL' ? 'checked' : '' }}>
                                 <label for="sizeXL" class="form-check-label">XL</label>
                             </div>
                         </td>

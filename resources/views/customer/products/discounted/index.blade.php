@@ -2,34 +2,49 @@
 
 @section('content')
 <div class="container py-5">
-    <h1 class="text-center mb-4 text-uppercase fw-bold">Danh Sách Sản Phẩm</h1>
+    <h1 class="text-center mb-4 text-uppercase fw-bold">Sản Phẩm Giảm Giá</h1>
 
     <div class="row">
-    @foreach ($products as $product)
-        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-            <div class="card product-card border-0 shadow-lg">
-                <div class="product-image">
-                    <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top" alt="{{ $product->name }}">
-                    <div class="overlay">
-                        <a href="{{ route('products.show', $product->id) }}" class="btn btn-light btn-view">Xem Chi Tiết</a>
+        @foreach ($products as $product)
+            @php
+                $discount = $product->discounts->first();
+                $discounted_price = $product->price * (1 - $discount->discount_percentage / 100);
+            @endphp
+
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="card product-card border-0 shadow-lg">
+                    <div class="product-image position-relative">
+                        <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top" alt="{{ $product->name }}">
+                        
+                        <!-- Hiển thị % giảm giá đẹp hơn -->
+                        <div class="discount-badge">
+                            -{{ round($discount->discount_percentage) }}%
+                        </div>
+
+                        <div class="overlay">
+                            <a href="{{ route('products.discounted.show', $product->id) }}" class="btn btn-light btn-view">Xem Chi Tiết</a>
+                        </div>
                     </div>
-                </div>
-                <div class="card-body text-center">
-                    <h5 class="card-title fw-bold">{{ $product->name }}</h5>
-                    <p class="fw-bold text-danger fs-5">{{ number_format($product->price, 0, ',', '.') }} VNĐ</p>
-                    <!-- <form action="{{ route('cart.add') }}" method="POST">
+                    <div class="card-body text-center">
+                        <h5 class="card-title fw-bold">{{ $product->name }}</h5>
+                        <p class="fw-bold text-danger fs-5">
+                            <del class="text-muted">{{ number_format($product->price, 0, ',', '.') }} VNĐ</del>
+                            <br>
+                            {{ number_format($discounted_price, 0, ',', '.') }} VNĐ
+                        </p>
+                        <a href="{{ route('products.discounted.show', $product->id) }}" class="btn btn-primary w-100 fw-bold">Xem chi tiết</a>
+                        <!-- <form action="{{ route('cart.add') }}" method="POST">
                         @csrf
                         <input type="hidden" name="product_id" value="{{ $product->id }}">
                         <label for="quantity">Số lượng:</label>
                         <input type="number" name="quantity" value="1" min="1" required>
                         <button type="submit">Thêm vào giỏ hàng</button>
                         </form> -->
-                    <a href="{{ route('products.show', $product->id) }}" class="btn btn-primary w-100 fw-bold">Xem chi tiết</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    @endforeach
-</div>
+        @endforeach
+    </div>
 </div>
 
 <style>
@@ -115,5 +130,21 @@
         background: #ff5733;
         border-color: #ff5733;
     }
+
+    /* Badge giảm giá đẹp hơn */
+    .discount-badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: linear-gradient(135deg, #ff0000, #ff5733);
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        padding: 8px 12px;
+        border-radius: 50px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        transform: rotate(-10deg);
+    }
 </style>
+
 @endsection

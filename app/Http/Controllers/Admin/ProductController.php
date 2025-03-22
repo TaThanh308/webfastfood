@@ -35,33 +35,30 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'         => 'required|string|max:255',
-            'category_id'  => 'required|exists:categories,id',
-            'price'        => 'required|numeric|min:0',
-            'stock'        => 'required|integer|min:0',
-            'description'  => 'required|string',
-            'image'        => 'nullable|image|max:2048',
-            'size'         => 'nullable|array',              // Cho phép mảng size
-            'size.*'       => 'string|in:S,M,L,XL',            // Mỗi giá trị phải thuộc các tùy chọn cho phép
+            'name'        => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
+            'price'       => 'required|numeric|min:0',
+            'stock'       => 'required|integer|min:0',
+            'description' => 'required|string',
+            'image'       => 'nullable|image|max:2048',
+            'size'        => 'required|string|in:S,M,L,XL', // Chỉ chọn một size
         ]);
-
-        // Nếu người dùng tích chọn size, chuyển mảng thành chuỗi (ví dụ "M,L")
-        $sizes = $request->has('size') ? implode(',', $request->size) : null;
-
+    
         $imagePath = $request->file('image') ? $request->file('image')->store('products', 'public') : null;
-
+    
         Product::create([
-            'name'         => $request->name,
-            'category_id'  => $request->category_id,
-            'price'        => $request->price,
-            'size'         => $sizes, // Lưu chuỗi kích thước hoặc null nếu không chọn
-            'stock'        => $request->stock,
-            'description'  => $request->description,
-            'image'        => $imagePath,
+            'name'        => $request->name,
+            'category_id' => $request->category_id,
+            'price'       => $request->price,
+            'size'        => $request->size, // Lưu trực tiếp chuỗi size
+            'stock'       => $request->stock,
+            'description' => $request->description,
+            'image'       => $imagePath,
         ]);
-
+    
         return redirect()->route('products.index')->with('success', 'Sản phẩm đã được thêm!');
     }
+    
 
     
 
@@ -74,23 +71,32 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name'        => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
             'description' => 'nullable|string',
-            'price' => 'required|numeric|min:0',
-            'size' => 'nullable|string|max:50',
-            'stock' => 'required|integer|min:0',
-            'image' => 'nullable|image|max:2048',
+            'price'       => 'required|numeric|min:0',
+            'size'        => 'required|string|in:S,M,L,XL', // Chỉ chọn một size
+            'stock'       => 'required|integer|min:0',
+            'image'       => 'nullable|image|max:2048',
         ]);
-
+    
         if ($request->hasFile('image')) {
             $product->image = $request->file('image')->store('products', 'public');
         }
-
-        $product->update($request->except('image'));
-
+    
+        $product->update([
+            'name'        => $request->name,
+            'category_id' => $request->category_id,
+            'description' => $request->description,
+            'price'       => $request->price,
+            'size'        => $request->size, // Lưu trực tiếp chuỗi size
+            'stock'       => $request->stock,
+        ]);
+    
         return redirect()->route('products.index')->with('success', 'Sản phẩm đã được cập nhật!');
     }
+    
+    
 
     public function destroy(Product $product)
     {

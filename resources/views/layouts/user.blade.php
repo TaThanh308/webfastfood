@@ -71,7 +71,7 @@
                     <li class="nav-item"><a class="nav-link"href="{{ route('customer.cart.index') }}"><i class="fas fa-cart-plus"></i> Giỏ hàng của bạn</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('orders.my') }}"><i class="fas fa-store"></i> Lịch sửa mua hàng</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('customer.discounts.index') }}"><i class="fas fa-tag"></i> Khuyến Mãi</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('productsUser.index') }}"><i class="fas fa-store"></i> Cửa Hàng</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('customer.products.index') }}"><i class="fas fa-store"></i> Cửa Hàng</a></li>
                 </ul>
                 
                 <div class="d-flex align-items-center">

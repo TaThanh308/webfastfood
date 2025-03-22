@@ -6,7 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductUserController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\NewsController;
+use App\Http\Controllers\Admin\NewsController;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use App\Http\Controllers\HomeController;
@@ -85,22 +85,22 @@ Route::middleware('auth')->group(function () {
 
 // Nhóm route dành cho admin
 Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/categories', [CategoryController::class, 'index'])->name('admin.categories.index');
-    Route::get('/categories/create', [CategoryController::class, 'create'])->name('admin.categories.create');
-    Route::post('/categories', [CategoryController::class, 'store'])->name('admin.categories.store');
-    Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('admin.categories.edit');
-    Route::put('/categories/{category}', [CategoryController::class, 'update'])->name('admin.categories.update');
+    Route::get('admin/categories', [CategoryController::class, 'index'])->name('admin.categories.index');
+    Route::get('admin/categories/create', [CategoryController::class, 'create'])->name('admin.categories.create');
+    Route::post('admin/categories', [CategoryController::class, 'store'])->name('admin.categories.store');
+    Route::get('admin/categories/{category}/edit', [CategoryController::class, 'edit'])->name('admin.categories.edit');
+    Route::put('admin/categories/{category}', [CategoryController::class, 'update'])->name('admin.categories.update');
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
     Route::resource('admin/products', ProductController::class);
-    Route::resource('news', NewsController::class);
-    Route::resource('banners', BannerController::class);
+    Route::resource('admin/news', NewsController::class);
+    Route::resource('admin/banners', BannerController::class);
     Route::resource('admin/discounts', ProductDiscountController::class);
 });
 
 
 
-Route::get('/products', [ProductUserController::class, 'index'])->name('productsUser.index');
-Route::get('/products/{id}', [ProductUserController::class, 'show'])->name('products.show');
+Route::get('/products', [ProductUserController::class, 'index'])->name('customer.products.index');
+Route::get('/products/{id}', [ProductUserController::class, 'show'])->name('customer.products.show');
 
 Route::middleware(['auth'])->group(function () {
     Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
@@ -117,7 +117,7 @@ Route::middleware(['auth'])->group(function () {
 
 
 Route::get('/discounts', [DiscountProductController::class, 'index'])->name('customer.discounts.index');
-Route::get('/discounted-products/{id}', [DiscountProductController::class, 'show'])->name('products.discounted.show');
+Route::get('/discounted-products/{id}', [DiscountProductController::class, 'show'])->name('customer.discounted.show');
 Route::get('/forgot-password', [AuthController::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('/forgot-password', [AuthController::class, 'sendResetLinkEmail'])->name('password.email');
 Route::get('/reset-password/{token}', [AuthController::class, 'showResetForm'])->name('password.reset');

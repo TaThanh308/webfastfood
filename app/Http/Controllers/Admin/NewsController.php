@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\News;
 use Illuminate\Support\Facades\Auth;
@@ -16,12 +17,12 @@ class NewsController extends Controller
     public function index()
     {
         $news = News::latest()->get();
-        return view('news.index', compact('news'));
+        return view('admin.news.index', compact('news'));
     }
 
     public function create()
     {
-        return view('news.create');
+        return view('admin.news.create');
     }
 
     public function store(Request $request)
@@ -49,7 +50,7 @@ class NewsController extends Controller
     public function edit($id)
     {
         $news = News::findOrFail($id);
-        return view('news.edit', compact('news'));
+        return view('admin.news.edit', compact('news'));
     }
 
     public function update(Request $request, $id)
