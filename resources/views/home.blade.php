@@ -1,7 +1,7 @@
 @extends('layouts.user')
 
 @section('content')
-<div class="container py-3">
+<div class="container py-5">
     <!-- Banner Section sát lên trên và tự động chuyển trong 3 giây -->
     <div class="container p-0">
             @if(isset($banners) && $banners->count() > 0)
