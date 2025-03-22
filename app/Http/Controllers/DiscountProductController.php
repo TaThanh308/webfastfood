@@ -17,7 +17,7 @@ class DiscountProductController extends Controller
                   ->where('valid_until', '>=', now());
         }])->get();
 
-        return view('products.discounted.index', compact('products'));
+        return view('customer.discounted.index', compact('products'));
     }
 
     // Trang chi tiết sản phẩm giảm giá
@@ -33,6 +33,6 @@ class DiscountProductController extends Controller
             return redirect()->route('products.discounted')->with('error', 'Sản phẩm này không có giảm giá!');
         }
 
-        return view('products.discounted.show', compact('product'));
+        return view('customer.discounted.show', compact('product'));
     }
 }

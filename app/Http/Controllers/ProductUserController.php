@@ -20,12 +20,12 @@ class ProductUserController extends Controller
               ->where('valid_until', '>=', $today);
     })->get();
 
-    return view('products.index', compact('products'));
+    return view('customer.products.index', compact('products'));
  }
 
  // Hiển thị chi tiết sản phẩm
  public function show($id)
  {
      $product = Product::findOrFail($id);
-     return view('products.show', compact('product'));
+     return view('customer.products.show', compact('product'));
  }}

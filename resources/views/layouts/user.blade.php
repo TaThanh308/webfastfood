@@ -70,7 +70,7 @@
                     <li class="nav-item"><a class="nav-link" href="bestseller.html"><i class="fas fa-star"></i> Bestseller</a></li>
                     <li class="nav-item"><a class="nav-link" href="order/index.html"><i class="fas fa-cart-plus"></i> Đặt Hàng</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('customer.discounts.index') }}"><i class="fas fa-tag"></i> Khuyến Mãi</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('productsUser.index') }}"><i class="fas fa-store"></i> Cửa Hàng</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('customer.products.index') }}"><i class="fas fa-store"></i> Cửa Hàng</a></li>
                 </ul>
                 <div class="d-flex align-items-center">
     @auth

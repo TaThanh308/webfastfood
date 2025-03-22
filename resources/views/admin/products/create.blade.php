@@ -33,24 +33,15 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>Kích thước (nếu có):</th>
+                        <th><label for="size">Kích thước:</label></th>
                         <td>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="size[]" value="S" id="sizeS">
-                                <label class="form-check-label" for="sizeS">S</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="size[]" value="M" id="sizeM">
-                                <label class="form-check-label" for="sizeM">M</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="size[]" value="L" id="sizeL">
-                                <label class="form-check-label" for="sizeL">L</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="size[]" value="XL" id="sizeXL">
-                                <label class="form-check-label" for="sizeXL">XL</label>
-                            </div>
+                            <select name="size" id="size" class="form-control" required>
+                                <option value="">-- Chọn kích thước --</option>
+                                <option value="S">S</option>
+                                <option value="M">M</option>
+                                <option value="L">L</option>
+                                <option value="XL">XL</option>
+                            </select>
                         </td>
                     </tr>
                     <tr>
