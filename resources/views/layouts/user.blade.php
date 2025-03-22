@@ -10,7 +10,9 @@
         body {
             font-family: Arial, sans-serif;
         }
-
+        body {
+            padding-top: 80px; /* Điều chỉnh tùy theo chiều cao của navbar */
+        }
         .navbar {
             background-color: #f8d9e0;
         }
@@ -31,6 +33,7 @@
         .navbar-toggler {
             font-size: 22px; /* Làm to icon menu trên mobile */
         }
+
 
         .footer {
             background-color: #f4e1d2;
@@ -56,7 +59,7 @@
 </head>
 <body>
     <!-- Header -->
-    <nav class="navbar navbar-expand-lg navbar-light">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
         <div class="container">
             <a class="navbar-brand" href="{{ route('home') }}">
               <img src="{{ asset('storage/images/logo.jpg') }}" alt="Bán đồ ăn nhanh Logo" width="70" height="auto" class="d-inline-block align-top">
