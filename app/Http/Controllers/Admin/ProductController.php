@@ -41,26 +41,23 @@ class ProductController extends Controller
             'stock'       => 'required|integer|min:0',
             'description' => 'required|string',
             'image'       => 'nullable|image|max:2048',
-            'size'        => 'required|string|in:S,M,L,XL', // Chỉ chọn một size
+            'size'        => 'nullable|string|in:S,M,L,XL', // ✅ Cho phép trống
         ]);
-    
+
         $imagePath = $request->file('image') ? $request->file('image')->store('products', 'public') : null;
-    
+
         Product::create([
             'name'        => $request->name,
             'category_id' => $request->category_id,
             'price'       => $request->price,
-            'size'        => $request->size, // Lưu trực tiếp chuỗi size
+            'size'        => $request->size ?? null, // ✅ Nếu trống, lưu null
             'stock'       => $request->stock,
             'description' => $request->description,
             'image'       => $imagePath,
         ]);
-    
+
         return redirect()->route('products.index')->with('success', 'Sản phẩm đã được thêm!');
     }
-    
-
-    
 
     public function edit(Product $product)
     {

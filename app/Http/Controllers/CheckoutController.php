@@ -18,64 +18,96 @@ class CheckoutController extends Controller
     {
         $cartItems = DB::table('cart')
             ->join('products', 'cart.product_id', '=', 'products.id')
-            ->select('cart.*', 'products.name', 'products.price', 'products.image')
+            ->leftJoin('product_discounts', function ($join) {
+                $join->on('products.id', '=', 'product_discounts.product_id')
+                     ->where('product_discounts.start_date', '<=', now())
+                     ->where('product_discounts.valid_until', '>=', now());
+            })
+            ->select(
+                'cart.*',
+                'products.name',
+                'products.price',
+                'products.image',
+                'product_discounts.discount_percentage',
+                DB::raw('
+                    CASE 
+                        WHEN product_discounts.discount_percentage IS NOT NULL 
+                        THEN products.price * (1 - product_discounts.discount_percentage / 100) 
+                        ELSE products.price 
+                    END as final_price
+                ')
+            )
             ->where('cart.user_id', Auth::id())
             ->get();
-
+    
         if ($cartItems->isEmpty()) {
             return redirect()->route('customer.cart.index')->with('error', 'Giỏ hàng trống!');
         }
-
-        $totalPrice = $cartItems->sum(fn($item) => $item->price * $item->quantity);
-
+    
+        // Tính tổng tiền với giá đã giảm
+        $totalPrice = $cartItems->sum(fn($item) => $item->final_price * $item->quantity);
+    
         return view('customer.checkout.checkout', compact('cartItems', 'totalPrice'));
     }
-
+    
     public function codPayment(Request $request)
     {
-        $request->validate([
-            'shipping_address' => 'required',
-            'phone_number' => 'required',
+        $validated = $request->validate([
+            'shipping_address' => 'required|string|max:255',
+            'phone_number' => 'required|string|max:15',
+            'total_price' => 'required|numeric|min:1',
         ]);
-
+    
         DB::beginTransaction();
         try {
-            // Tạo đơn hàng
             $order = Order::create([
                 'user_id' => Auth::id(),
-                'total_price' => $request->total_price,
+                'total_price' => $validated['total_price'],
                 'status' => 'pending',
-                'shipping_address' => $request->shipping_address,
-                'phone_number' => $request->phone_number,
+                'shipping_address' => $validated['shipping_address'],
+                'phone_number' => $validated['phone_number'],
             ]);
-
-            // Thêm vào bảng order_items
+    
             $cartItems = Cart::where('user_id', Auth::id())->get();
             foreach ($cartItems as $item) {
+                // Kiểm tra giảm giá
+                $discount = $item->product->discounts()
+                    ->where('start_date', '<=', now())
+                    ->where('valid_until', '>=', now())
+                    ->first();
+            
+                // Tính giá sau giảm
+                $price = $item->product->price;
+                if ($discount) {
+                    $price = $item->product->price * (1 - ($discount->discount_percentage / 100));
+                }
+            
+                // Thêm sản phẩm vào bảng order_items
                 $order->orderItems()->create([
                     'product_id' => $item->product_id,
                     'quantity' => $item->quantity,
-                    'price' => $item->product->price,
+                    'price' => $price,
                 ]);
             }
-
-            // Tạo thanh toán
+            
+    
             Payment::create([
                 'order_id' => $order->id,
-                'amount' => $request->total_price,
+                'amount' => $validated['total_price'],
                 'payment_method' => 'COD',
             ]);
-
-            // Xóa giỏ hàng
+    
             Cart::where('user_id', Auth::id())->delete();
-
             DB::commit();
-            return redirect()->route('orders.show', $order->id)->with('success', 'Đặt hàng thành công! Vui lòng nhận hàng và thanh toán khi giao hàng.');
+            return redirect()->route('orders.show', $order->id)->with('success', 'Đặt hàng thành công!');
         } catch (\Exception $e) {
             DB::rollBack();
+            Log::error('COD Payment Error: ' . $e->getMessage());
             return back()->with('error', 'Có lỗi xảy ra, vui lòng thử lại.');
         }
     }
+    
+    
 
     
     public function vnpayPayment(Request $request)
@@ -137,7 +169,7 @@ class CheckoutController extends Controller
     public function vnpayReturn(Request $request)
     {
         Log::info('VNPay Response:', $request->all());
-    
+
         if ($request->vnp_ResponseCode == "00") { // Thanh toán thành công
             DB::beginTransaction();
             try {
@@ -145,13 +177,13 @@ class CheckoutController extends Controller
                 if (!$user) {
                     throw new \Exception("Người dùng chưa đăng nhập.");
                 }
-    
+
                 // Lấy giỏ hàng của người dùng
                 $cartItems = Cart::where('user_id', $user->id)->get();
                 if ($cartItems->isEmpty()) {
                     throw new \Exception("Giỏ hàng trống, không thể tạo đơn hàng.");
                 }
-    
+
                 // Tạo đơn hàng
                 $order = Order::create([
                     'user_id' => $user->id,
@@ -160,16 +192,31 @@ class CheckoutController extends Controller
                     'shipping_address' => session('checkout_data')['shipping_address'] ?? 'Không có địa chỉ',
                     'phone_number' => session('checkout_data')['phone_number'] ?? 'Không có số điện thoại',
                 ]);
-    
+
                 // Thêm sản phẩm vào bảng order_items
                 foreach ($cartItems as $item) {
+                    $product = $item->product;
+                
+                    // Kiểm tra xem sản phẩm có giảm giá không
+                    $discount = $product->discounts()
+                        ->where('start_date', '<=', now())
+                        ->where('valid_until', '>=', now())
+                        ->first();
+                
+                    // Nếu có giảm giá, áp dụng giảm giá
+                    $discountedPrice = $product->price;
+                    if ($discount) {
+                        $discountedPrice = $product->price * (1 - ($discount->discount_percentage / 100));
+                    }
+                
+                    // Thêm sản phẩm vào bảng order_items
                     $order->orderItems()->create([
-                        'product_id' => $item->product_id,
+                        'product_id' => $product->id,
                         'quantity' => $item->quantity,
-                        'price' => $item->product->price,
+                        'price' => $discountedPrice, // Lưu giá sau khi giảm
                     ]);
                 }
-    
+                
                 // Tạo bản ghi thanh toán
                 Payment::create([
                     'order_id' => $order->id,
@@ -177,24 +224,24 @@ class CheckoutController extends Controller
                     'amount' => $order->total_price,
                     'transaction_id' => $request->vnp_TransactionNo,
                 ]);
-    
+
                 // Xóa giỏ hàng sau khi thanh toán thành công
                 Cart::where('user_id', $user->id)->delete();
-    
+
                 // Xóa session thanh toán
                 session()->forget('checkout_data');
-    
+
                 DB::commit();
-                return redirect()->route('customer.orders.index')->with('success', 'Thanh toán VNPAY thành công!');
+                return redirect()->route('orders.show', $order->id)->with('success', 'Thanh toán VNPAY thành công!');
             } catch (\Exception $e) {
                 DB::rollBack();
                 Log::error('VNPay Order Error:', ['error' => $e->getMessage()]);
                 return redirect()->route('customer.cart.index')->with('error', 'Lỗi xử lý đơn hàng: ' . $e->getMessage());
             }
         }
-    
+
         return redirect()->route('customer.cart.index')->with('error', 'Thanh toán thất bại!');
     }
-    
+
     
 }

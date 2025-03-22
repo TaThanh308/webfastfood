@@ -111,10 +111,10 @@
         </div>
     </nav>
 
-    <!-- Content -->
-    <div class="container my-4">
-        @yield('content')
-    </div>
+   <!-- Content -->
+<div class="container mt-0 pt-0">
+    @yield('content')
+</div>
 
 
 

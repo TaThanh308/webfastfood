@@ -32,11 +32,11 @@
                             </div>
                         </td>
                     </tr>
-                    <tr>
+                                        <tr>
                         <th><label for="size">Kích thước:</label></th>
                         <td>
-                            <select name="size" id="size" class="form-control" required>
-                                <option value="">-- Chọn kích thước --</option>
+                            <select name="size" id="size" class="form-control">
+                                <option value="">-- Không chọn kích thước --</option>
                                 <option value="S">S</option>
                                 <option value="M">M</option>
                                 <option value="L">L</option>
