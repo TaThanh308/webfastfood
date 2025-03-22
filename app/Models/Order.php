@@ -21,4 +21,8 @@ class Order extends Model
     public function payment() {
         return $this->hasOne(Payment::class);
     }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'order_id', 'id');
+    }
 }

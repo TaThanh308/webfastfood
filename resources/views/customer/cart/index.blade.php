@@ -15,6 +15,13 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
 
     @if($cart->isEmpty())
         <div class="text-center py-5">
@@ -97,7 +104,7 @@
         
         <div class="row mt-4">
             <div class="col-md-6">
-                <a href="{{ route('products.index') }}" class="btn btn-outline-secondary">
+                <a href="{{ route('customer.products.index') }}" class="btn btn-outline-secondary">
                     <i class="fas fa-arrow-left me-2"></i>Tiếp tục mua sắm
                 </a>
             </div>

@@ -21,4 +21,14 @@ class Product extends Model
     {
         return $this->hasMany(ProductDiscount::class, 'product_id');
     }
+        public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
 }

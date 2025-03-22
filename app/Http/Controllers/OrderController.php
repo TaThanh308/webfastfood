@@ -13,9 +13,16 @@ class OrderController extends Controller
      */
     public function myOrders()
     {
-        $orders = Order::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
+        $orders = Order::with(['orderItems', 'reviews' => function ($query) {
+            $query->where('user_id', Auth::id()); // Chỉ lấy đánh giá của người dùng hiện tại
+        }])->where('user_id', Auth::id())
+          ->orderBy('created_at', 'desc')
+          ->get();
+    
         return view('customer.orders.index', compact('orders'));
     }
+    
+    
 
     /**
      * Xem chi tiết đơn hàng.
