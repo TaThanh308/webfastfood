@@ -75,7 +75,7 @@ class ProductController extends Controller
             'category_id' => 'required|exists:categories,id',
             'description' => 'nullable|string',
             'price'       => 'required|numeric|min:0',
-            'size'        => 'required|string|in:S,M,L,XL', // Chỉ chọn một size
+            'size' => 'nullable|string|in:S,M,L,XL',
             'stock'       => 'required|integer|min:0',
             'image'       => 'nullable|image|max:2048',
         ]);
