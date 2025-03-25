@@ -19,6 +19,10 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\Admin\OrderAdminController;
+use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\CommentController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -95,6 +99,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('admin/news', NewsController::class);
     Route::resource('admin/banners', BannerController::class);
     Route::resource('admin/discounts', ProductDiscountController::class);
+    Route::get('/admin/revenue-report', [ReportController::class, 'index'])->name('admin.revenue');
+    Route::get('/admin/revenue-data', [ReportController::class, 'getRevenueData'])->name('admin.revenue.data');
+    Route::get('/admin/accounts', [UserController::class, 'index'])->name('admin.accounts');
+    Route::get('/admin/comments', [CommentController::class, 'index'])->name('admin.comments');
+    Route::delete('/admin/comments/{id}', [CommentController::class, 'destroy'])->name('admin.comments.delete');
 });
 
 
@@ -139,4 +148,4 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
 
 Route::post('/reviews/{orderId}', [ReviewController::class, 'store'])->name('reviews.store')->middleware('auth');
-
+Route::get('/best-sellers', [ProductUserController::class, 'bestSellers'])->name('products.bestsellers')->middleware('auth');

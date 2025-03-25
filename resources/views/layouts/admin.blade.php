@@ -66,16 +66,16 @@
 <body>
     <div class="sidebar">
         <h2>Quản Lý</h2>
-        <a href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-        <a href="{{ route('admin.categories.index') }}"><i class="fas fa-list"></i> Danh mục</a>
-        <a href="{{ route('banners.index') }}"><i class="fas fa-list"></i> Banner</a>
-        <a href="{{ route('products.index') }}"><i class="fas fa-utensils"></i> Sản phẩm</a>
-        <a href="{{ route('discounts.index') }}"><i class="fas fa-tags"></i> Giảm Giá</a>
-        <a href="{{ route('admin.orders') }}"><i class="fas fa-shopping-cart"></i> Đơn Hàng</a>
-        <a href="{{ route('news.index') }}">
-        
-    <i class="fas fa-shopping-cart"></i> Tin Tức
-</a>
+        <a href="{{ route('admin.dashboard') }}"><i class="fas fa-chart-line"></i> Dashboard</a>
+        <a href="{{ route('admin.accounts') }}"><i class="fas fa-user"></i> Tài Khoản</a>
+        <a href="{{ route('admin.categories.index') }}"><i class="fas fa-folder"></i> Danh mục</a>
+        <a href="{{ route('banners.index') }}"><i class="fas fa-image"></i> Banner</a>
+        <a href="{{ route('products.index') }}"><i class="fas fa-box-open"></i> Sản phẩm</a>
+        <a href="{{ route('discounts.index') }}"><i class="fas fa-percentage"></i> Giảm Giá</a>
+        <a href="{{ route('admin.orders') }}"><i class="fas fa-shopping-basket"></i> Đơn Hàng</a>
+        <a href="{{ route('news.index') }}"><i class="fas fa-newspaper"></i> Tin Tức</a>
+        <a href="{{ route('admin.comments') }}"><i class="fas fa-comments"></i> Bình luận</a>
+
     </div>
     <div class="content">
         <div class="top-bar">

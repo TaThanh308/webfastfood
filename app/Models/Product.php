@@ -31,4 +31,10 @@ class Product extends Model
         return $this->hasMany(Comment::class);
     }
 
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class, 'orderItem', 'product_id', 'order_id')
+            ->withPivot('quantity') // Lấy số lượng sản phẩm đã mua
+            ->withTimestamps();
+    }
 }
