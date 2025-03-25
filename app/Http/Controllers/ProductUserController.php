@@ -7,6 +7,7 @@ use App\Models\Product;
 use Carbon\Carbon;
 use App\Models\Banner;
 use App\Models\ProductDiscount;
+use App\Models\News;
 
 class ProductUserController extends Controller
 {
@@ -23,7 +24,9 @@ class ProductUserController extends Controller
                 ->where('valid_until', '>=', $today);
         })->get();
 
-        return view('customer.products.index', compact('products', 'banners'));
+        $news = News::where('status', 'published')->latest()->take(3)->get(); // Lấy 5 tin tức mới nhất
+
+        return view('customer.products.index', compact('products', 'banners', 'news'));
     }
     // Hiển thị chi tiết sản phẩm
     public function show($id)
@@ -53,6 +56,30 @@ class ProductUserController extends Controller
         $reviews = $product->reviews()->with('user')->latest()->get();
     
         return view('customer.products.show', compact('product', 'relatedProducts', 'reviews'));
+    }
+    public function bestSellers()
+    {
+        $bestSellingProducts = Product::select(
+                'products.id', 
+                'products.name', 
+                'products.image', 
+                'products.price', 
+                'product_discounts.discount_percentage', // Lấy phần trăm giảm giá
+                'products.category_id'
+            )
+            ->leftJoin('product_discounts', function ($join) {
+                $join->on('products.id', '=', 'product_discounts.product_id')
+                    ->whereDate('product_discounts.start_date', '<=', now()) // Giảm giá đã bắt đầu
+                    ->whereDate('product_discounts.valid_until', '>=', now()); // Giảm giá còn hiệu lực
+            })
+            ->join('order_items', 'products.id', '=', 'order_items.product_id')
+            ->selectRaw('COUNT(order_items.id) as total_sold')
+            ->groupBy('products.id', 'products.name', 'products.image', 'products.price', 'product_discounts.discount_percentage', 'products.category_id') 
+            ->orderByDesc('total_sold')
+            ->take(10)
+            ->get();
+    
+        return view('customer.products.bestsellers', compact('bestSellingProducts'));
     }
     
     
