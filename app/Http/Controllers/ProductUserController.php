@@ -11,21 +11,35 @@ use App\Models\News;
 
 class ProductUserController extends Controller
 {
-    // Hiển thị danh sách sản phẩm
-    public function index()
+    public function index(Request $request)
     {
         $today = Carbon::today();
         $banners = Banner::where('status', 'active')->get();
+        $news = News::where('status', 'published')->latest()->paginate(3);
     
+        // Lấy từ khóa tìm kiếm từ request
+        $search = $request->input('search');
+    
+        // Truy vấn sản phẩm, tìm theo tên, mô tả hoặc tên danh mục
         $products = Product::whereDoesntHave('discounts', function ($query) use ($today) {
-            $query->where('start_date', '<=', $today)
-                ->where('valid_until', '>=', $today);
-        })->paginate(4); // Hiển thị 8 sản phẩm mỗi trang
+                $query->where('start_date', '<=', $today)
+                      ->where('valid_until', '>=', $today);
+            })
+            ->when($search, function ($query) use ($search) {
+                $query->where(function($q) use ($search) {
+                    $q->where('name', 'like', "%$search%")
+                      ->orWhere('description', 'like', "%$search%")
+                      ->orWhereHas('category', function($q) use ($search) {
+                          $q->where('name', 'like', "%$search%");
+                      });
+                });
+            })
+            ->paginate(16);
     
-        $news = News::where('status', 'published')->latest()->paginate(3); // Hiển thị 3 tin tức mỗi trang
-    
-        return view('customer.products.index', compact('products', 'banners', 'news'));
+        return view('customer.products.index', compact('products', 'banners', 'news', 'search'));
     }
+    
+
     
     // Hiển thị chi tiết sản phẩm
     public function show($id)

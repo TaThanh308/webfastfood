@@ -55,6 +55,10 @@
             color: whitesmoke;
             padding: 10px 0;
         }
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
     </style>
 </head>
 <body>
@@ -69,15 +73,39 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link" href="{{ route('products.bestsellers') }}"><i class="fas fa-star"></i> Bestseller</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('customer.cart.index') }}"><i class="fas fa-cart-plus"></i> Giỏ hàng của bạn</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('orders.my') }}"><i class="fas fa-store"></i> Lịch sửa mua hàng</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('customer.discounts.index') }}"><i class="fas fa-tag"></i> Khuyến Mãi</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('customer.products.index') }}"><i class="fas fa-store"></i> Cửa Hàng</a></li>
-                </ul>
-                
-                <div class="d-flex align-items-center">
+    <ul class="navbar-nav me-auto">
+        <li class="nav-item"><a class="nav-link" href="{{ route('products.bestsellers') }}"><i class="fas fa-star"></i> Bestseller</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('customer.cart.index') }}"><i class="fas fa-cart-plus"></i> Giỏ hàng của bạn</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('orders.my') }}"><i class="fas fa-store"></i> Lịch sử mua hàng</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('customer.discounts.index') }}"><i class="fas fa-tag"></i> Khuyến Mãi</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('customer.products.index') }}"><i class="fas fa-store"></i> Cửa Hàng</a></li>
+        
+     <!-- Chèn thanh tìm kiếm vào đây -->
+<div class="d-flex align-items-center">
+    <!-- Dropdown tìm kiếm -->
+    <div class="dropdown">
+        <button class="btn btn-outline-success dropdown-toggle" type="button" id="searchDropdown">
+            <i class="fas fa-search"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end p-3 shadow" aria-labelledby="searchDropdown" style="min-width: 350px;">
+            <li>
+                <form action="{{ route('customer.products.index') }}" method="GET" class="d-flex">
+                    <input class="form-control me-2" type="text" name="search" 
+                        placeholder="Nhập sản phẩm cần tìm..." 
+                        value="{{ request('search') }}">
+                    <button class="btn btn-success" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+    </ul>
+
+
     @auth
         <div class="dropdown">
             <button class="btn btn-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
