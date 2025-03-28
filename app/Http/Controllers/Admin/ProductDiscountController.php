@@ -11,7 +11,7 @@ class ProductDiscountController extends Controller
 {
     public function index()
     {
-        $discounts = ProductDiscount::with('product')->get();
+        $discounts = ProductDiscount::with('product')->paginate(10);
         return view('admin.discounts.index', compact('discounts'));
     }
 

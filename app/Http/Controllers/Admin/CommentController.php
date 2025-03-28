@@ -10,7 +10,7 @@ class CommentController extends Controller
 {
     public function index()
     {
-        $comments = Review::with(['user', 'product'])->orderBy('created_at', 'desc')->get();
+        $comments = Review::with(['user', 'product'])->orderBy('created_at', 'desc')->paginate(10);
         return view('admin.comments.index', compact('comments'));
     }
 

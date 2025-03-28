@@ -73,7 +73,10 @@
                         @endif
                     </td>
                 </tr>
-
+<!-- Hiển thị phân trang nếu có -->
+          
+              <!-- Hiển thị phân trang -->
+             
                 <!-- Modal Đánh Giá -->
                 <div class="modal fade" id="reviewModal-{{ $order->id }}" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -108,4 +111,7 @@
         </table>
     @endif
 </div>
+<div class="d-flex justify-content-center mt-3">
+                {{ $orders->links('pagination::bootstrap-4') }}
+            </div>
 @endsection

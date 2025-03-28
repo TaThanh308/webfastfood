@@ -25,6 +25,24 @@
         0% { transform: translateX(100%); }
         100% { transform: translateX(-100%); }
     }
+    .card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.card .card-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card img {
+    height: 200px; /* Đảm bảo hình ảnh có cùng chiều cao */
+    object-fit: cover; /* Giữ tỷ lệ ảnh và cắt phần dư */
+}
+
 </style>
 @section('content')
 <div class="container py-5">
@@ -82,6 +100,12 @@
             </div>
         @endforeach
     </div>
+    <!-- Hiển thị phân trang nếu có -->
+            <!-- {{ $products->links() }} -->
+              <!-- Hiển thị phân trang -->
+              <div class="d-flex justify-content-center mt-3">
+                {{ $products->links('pagination::bootstrap-4') }}
+            </div>
 </div>
 <!-- Tin tức mới nhất -->
 <div class="container mt-4">
@@ -101,6 +125,8 @@
                     </div>
                 </div>
             </div>
+
+        
 
             <!-- Modal hiển thị nội dung đầy đủ -->
             <div class="modal fade" id="newsModal-{{ $newsItem->id }}" tabindex="-1" aria-labelledby="newsModalLabel-{{ $newsItem->id }}" aria-hidden="true">

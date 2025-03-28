@@ -17,11 +17,10 @@ class OrderController extends Controller
             $query->where('user_id', Auth::id()); // Chỉ lấy đánh giá của người dùng hiện tại
         }])->where('user_id', Auth::id())
           ->orderBy('created_at', 'desc')
-          ->get();
+          ->paginate(3); // Hiển thị 5 đơn hàng mỗi trang
     
         return view('customer.orders.index', compact('orders'));
-    }
-    
+    }    
     
 
     /**

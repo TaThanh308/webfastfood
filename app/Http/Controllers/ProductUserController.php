@@ -15,19 +15,18 @@ class ProductUserController extends Controller
     public function index()
     {
         $today = Carbon::today();
-        // Lấy danh sách sản phẩm có giảm giá hợp lệ
         $banners = Banner::where('status', 'active')->get();
-
-        // Lấy danh sách sản phẩm KHÔNG có giảm giá hợp lệ
+    
         $products = Product::whereDoesntHave('discounts', function ($query) use ($today) {
             $query->where('start_date', '<=', $today)
                 ->where('valid_until', '>=', $today);
-        })->get();
-
-        $news = News::where('status', 'published')->latest()->take(3)->get(); // Lấy 5 tin tức mới nhất
-
+        })->paginate(4); // Hiển thị 8 sản phẩm mỗi trang
+    
+        $news = News::where('status', 'published')->latest()->paginate(3); // Hiển thị 3 tin tức mỗi trang
+    
         return view('customer.products.index', compact('products', 'banners', 'news'));
     }
+    
     // Hiển thị chi tiết sản phẩm
     public function show($id)
     {
@@ -77,8 +76,7 @@ class ProductUserController extends Controller
             ->groupBy('products.id', 'products.name', 'products.image', 'products.price', 'product_discounts.discount_percentage', 'products.category_id') 
             ->orderByDesc('total_sold')
             ->take(10)
-            ->get();
-    
+            ->paginate(8); // Hiển thị 4 sản phẩm mỗi trang
         return view('customer.products.bestsellers', compact('bestSellingProducts'));
     }
     

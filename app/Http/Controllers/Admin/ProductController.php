@@ -22,7 +22,7 @@ class ProductController extends Controller
             });
         }
 
-        $products = $query->get();
+        $products = $query->paginate(10);
         return view('admin.products.index', compact('products'));
     }
 

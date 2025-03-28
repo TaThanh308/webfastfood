@@ -26,6 +26,26 @@
         0% { transform: translateX(100%); }
         100% { transform: translateX(-100%); }
     }
+    .card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.card .card-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card img {
+    height: 200px; /* Đảm bảo hình ảnh có cùng chiều cao */
+    object-fit: cover; /* Giữ tỷ lệ ảnh và cắt phần dư */
+}
+
+
+
 </style>
 
 @section('content')
