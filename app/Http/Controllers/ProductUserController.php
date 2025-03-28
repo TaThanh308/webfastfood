@@ -20,7 +20,7 @@ class ProductUserController extends Controller
         $products = Product::whereDoesntHave('discounts', function ($query) use ($today) {
             $query->where('start_date', '<=', $today)
                 ->where('valid_until', '>=', $today);
-        })->paginate(4); // Hiển thị 8 sản phẩm mỗi trang
+        })->paginate(8); // Hiển thị 8 sản phẩm mỗi trang
     
         $news = News::where('status', 'published')->latest()->paginate(3); // Hiển thị 3 tin tức mỗi trang
     
